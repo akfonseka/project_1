@@ -10,6 +10,10 @@ variable "storage_class" {
     description = "Choose between REGIONAL etc." 
 }
 
+variable "force_destroy" {
+    description = "Boolean value representing whether the resource will be deleted on with tf destroy" 
+}
+
 variable "bucket_access" {
     description = "Level of access granted to the bucket" 
 }
@@ -19,5 +23,5 @@ variable "lifecycle_age" {
 }
 
 variable "action_type" {
-  
+    description = "Type of action to carry out on object at end of lifecycle age"  
 }
