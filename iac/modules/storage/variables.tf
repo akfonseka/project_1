@@ -14,7 +14,7 @@ variable "force_destroy" {
     description = "Boolean value representing whether the resource will be deleted on with tf destroy" 
 }
 
-variable "bucket_access" {
+variable "uniform_bucket_access" {
     description = "Level of access granted to the bucket" 
 }
 

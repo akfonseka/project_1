@@ -1,3 +1,9 @@
 gcp_project_id = "pipeline-project-1"
 gcp_region = "europe-west2"
 python_runtime = "python310"
+raw_storage_bucket = format("%s-%s", var.gcp_project_id, "data-bronze-bucket")
+storage_class = "REGIONAL"
+allow_data_deletion_on_tf_destroy = true
+uniform_bucket_access = true
+lifecycle_age = 366
+action_type = "Delete"
