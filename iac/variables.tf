@@ -11,10 +11,6 @@ variable "python_runtime"   {
     default = "python310"
     }
 
-variable "raw_storage_bucket" {
-    description = "Name of storage bucket for raw data"  
-}
-
 variable "storage_class" {
     description = "Class of Storage bucket"  
 }

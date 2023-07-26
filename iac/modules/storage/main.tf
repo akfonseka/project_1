@@ -3,7 +3,7 @@ resource "google_storage_bucket" "example" {
     location = var.bucket_location
     storage_class = var.storage_class
     force_destroy = var.force_destroy
-    uniform_bucket_level_access = var.bucket_access
+    uniform_bucket_level_access = var.uniform_bucket_access
 
     lifecycle_rule {
       condition {
