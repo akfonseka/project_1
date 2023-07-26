@@ -1,23 +1,11 @@
-resource "google_service_account" "sa" {
+data "google_service_account" "sa" {
     account_id = local.google_service_account
-    display_name = "Project Service Account"  
+    project = var.gcp_project_id  
 }
 
-resource "google_service_account_iam_binding" "storage-acccount-iam" {
-    service_account_id = google_service_account.sa.email
-    role = "roles/storage.admin"  
-}
-
-resource "google_service_account_iam_binding" "bigquery-account-iam" {
-    service_account_id = google_service_account.sa.email
-    role = "roles/bigquery.admin"   
-}
-
-resource "google_service_account_iam_binding" "user-account-iam" {
-    service_account_id = google_service_account.sa.email
+resource "google_service_account_iam_member" "user-account-iam" {
+    service_account_id = data.google_service_account.sa.name
     role = "roles/iam.serviceAccountUser"
 
-    members = [
-        local.user_email
-    ]
+    member = local.user_email
 }
