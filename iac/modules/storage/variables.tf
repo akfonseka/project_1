@@ -2,6 +2,11 @@ variable "google_storage_bucket_name" {
     description = "Name of the GCP Storage Bucket"     
 }
 
+variable "gcp_project_id" {
+    description = "Project ID to create the resource in"
+  
+}
+
 variable "bucket_location" {
     description = "Location of the Storage Bucket"  
 }

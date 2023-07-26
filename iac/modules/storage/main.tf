@@ -1,5 +1,6 @@
 resource "google_storage_bucket" "example" {
     name = var.google_storage_bucket_name
+    project = var.gcp_project_id
     location = var.bucket_location
     storage_class = var.storage_class
     force_destroy = var.force_destroy
