@@ -25,3 +25,13 @@ module "transformed_storage_bucket" {
     action_type = var.action_type
    
 }
+
+
+module "bq_dataset" {
+    source = "./modules/bq_dataset"
+    bq_dataset_id = local.bq_dataset_id
+    dataset_friendly_name = local.dataset_friendly_name
+    dataset_description = local.dataset_description
+    dataset_location = var.gcp_region
+  
+}
