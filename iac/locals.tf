@@ -14,8 +14,10 @@ locals {
     "sa"
   )
   bq_dataset_id = format(
-    "%s-%s",
+    "%s_%s",
     var.gcp_project_id
     ,"dataset"
   )
+  dataset_friendly_name = "Project Dataset"
+  dataset_description  = "Dataset for loading data into BQ"
 }
