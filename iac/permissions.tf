@@ -6,6 +6,5 @@ data "google_service_account" "sa" {
 resource "google_service_account_iam_member" "user-account-iam" {
     service_account_id = data.google_service_account.sa.name
     role = "roles/iam.serviceAccountUser"
-
     member = local.user_email
 }
