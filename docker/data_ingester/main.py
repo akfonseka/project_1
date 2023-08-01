@@ -5,4 +5,4 @@ import pandas as pd
 
 
 if __name__ == '__main__':
-    pass 
+    print('Successful container run')
