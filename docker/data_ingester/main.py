@@ -35,8 +35,6 @@ def web_to_gcs(year: int, area: str) -> pd.DataFrame:
     response = requests.get(url)
     
     df = pd.read_csv(StringIO(response.text))    
-
-    upload_to_gcs(var_credentials_location, var_gcs_bronze_bucket, f'{year}/{area}', df, file_name)
     
     return df
 
@@ -52,6 +50,8 @@ def file_name_creator(year: int, area: str) -> str:
 
 if __name__ == '__main__':
 
+# When run as a script - bikedata between 2015-2022 for all 3 London areas will be downloaded to GCS Bucket
+
     for year in range(15,23):
         for area in area_list:
             file = file_name_creator(year, area)
@@ -59,4 +59,3 @@ if __name__ == '__main__':
             upload_to_gcs(var_credentials_location, var_gcs_bronze_bucket, f'{year}/{area}', df, file)
             print(f'GCS://{year}/{area}')
 
-            
