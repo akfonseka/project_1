@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 from google.cloud import storage
 from io import StringIO
-from config_variables import var_credentials_location, var_gcs_connector, var_gcs_bronze_bucket
+from config_variables import var_gcs_bronze_bucket
 
 # Initial URL for main web data source
 base_url = r"https://cycling.data.tfl.gov.uk/ActiveTravelCountsProgramme/1-Strategic%20counts%20(CIO)"
@@ -56,6 +56,6 @@ if __name__ == '__main__':
         for area in area_list:
             file = file_name_creator(year, area)
             df = web_to_gcs(year, area)
-            upload_to_gcs(var_credentials_location, var_gcs_bronze_bucket, f'{year}/{area}', df, file)
-            print(f'GCS://{year}/{area}')
+            upload_to_gcs('./credentials.json', var_gcs_bronze_bucket, f'raw/{year}/{area}', df, file)
+            print(f'GCS: raw/{year}/{area}')
 
