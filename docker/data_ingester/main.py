@@ -25,7 +25,7 @@ def upload_to_gcs(credentials_location: str, bucket: str, object_name: str, csv_
     return None
 
 
-def web_to_gcs(year: int, area: str) -> pd.DataFrame:
+def web_to_df(year: int, area: str) -> pd.DataFrame:
     '''
     Function to take data from online data source and upload to GCS
     '''
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     for year in range(15,23):
         for area in area_list:
             file = file_name_creator(year, area)
-            df = web_to_gcs(year, area)
+            df = web_to_df(year, area)
             upload_to_gcs('./credentials.json', var_gcs_bronze_bucket, f'raw/{year}/{area}', df, file)
             print(f'GCS: raw/{year}/{area}')
 
