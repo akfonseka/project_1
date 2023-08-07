@@ -8,6 +8,11 @@ locals {
     var.gcp_project_id,                                     
     "data-silver-bucket"
   )
+  cluster_staging_bucket_name = format(
+    "%s-%s"
+    ,var.gcp_project_id
+    ,"cluster-stg-bucket"
+  )
   google_service_account = format(
     "%s-%s", 
     var.gcp_project_id, 
