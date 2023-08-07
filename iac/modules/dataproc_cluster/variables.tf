@@ -30,3 +30,8 @@ variable "worker_num" {
 variable "preemptible_worker_num" {
     type = number
 }
+
+variable "optional_components" {
+    type = string
+  
+}

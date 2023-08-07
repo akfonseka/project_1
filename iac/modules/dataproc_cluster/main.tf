@@ -21,6 +21,12 @@ resource "google_dataproc_cluster" "spark_cluster" {
       preemptible_worker_config { # Updateable
         num_instances = var.preemptible_worker_num
       }
+
+      software_config {
+        optional_components = [
+          var.optional_components
+        ]
+      }
     }
 
 

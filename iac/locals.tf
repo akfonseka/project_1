@@ -30,4 +30,5 @@ locals {
     , var.gcp_project_id
     , "cluster"
   )
+  optional_components = "Docker, Jupyter Notebook"
 }

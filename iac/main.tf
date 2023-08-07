@@ -61,5 +61,6 @@ module "dataproc_cluster" {
   master_disk_size       = 50
   worker_num             = 2
   preemptible_worker_num = 0
+  optional_components    = local.optional_components
 }
 
