@@ -28,5 +28,5 @@ variable "worker_num" {
 }
 
 variable "preemptible_worker_num" {
-    type = numbers  
+    type = number
 }
