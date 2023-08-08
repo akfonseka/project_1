@@ -8,7 +8,10 @@ services:
       dockerfile: Dockerfile-ingester
     volumes:
       - "../data/raw/:/app/data/raw:rw"
-
+  # pyspark:
+  #   build:
+  #     context: ./spark/
+  #     dockerfile: Dockerfile-spark
 
 
   
