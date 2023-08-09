@@ -58,7 +58,7 @@ if __name__ == '__main__':
             t_start = time()
 
             df = web_to_df(year, area)
-            upload_to_gcs('./credentials.json', var_gcs_bronze_bucket, f'raw/{year}/{year}_{area}_bikedata.csv', df)
+            upload_to_gcs('./credentials.json', var_gcs_bronze_bucket, f'raw/{year}/{area}/{year}_{area}_bikedata.csv', df)
 
             t_end = time()
 
