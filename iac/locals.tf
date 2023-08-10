@@ -18,6 +18,11 @@ locals {
     , var.gcp_project_id
     , "cluster-tmp-bucket"
   )
+  code_bucket_name = format(
+    "%s-%s"
+    ,var.gcp_project_id
+    ,"code-bucket"
+  )
   google_service_account = format(
     "%s-%s",
     var.gcp_project_id,
