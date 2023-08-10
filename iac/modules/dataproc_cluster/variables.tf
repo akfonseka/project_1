@@ -10,6 +10,10 @@ variable "cluster_staging_bucket" {
     type = string  
 }
 
+variable "cluster_temp_bucket" {
+    type = string  
+}
+
 variable "master_num" {
     type = number  
 }
@@ -35,3 +39,4 @@ variable "optional_components" {
     type = string
   
 }
+

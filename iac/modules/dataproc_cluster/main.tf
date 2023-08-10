@@ -5,6 +5,7 @@ resource "google_dataproc_cluster" "spark_cluster" {
 
     cluster_config {
       staging_bucket = var.cluster_staging_bucket
+      temp_bucket = var.cluster_temp_bucket
 
       master_config {
         num_instances = var.master_num 

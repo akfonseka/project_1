@@ -13,6 +13,11 @@ locals {
     , var.gcp_project_id
     , "cluster-stg-bucket"
   )
+  cluster_temp_bucket_name = format(
+    "%s-%s"
+    , var.gcp_project_id
+    , "cluster-tmp-bucket"
+  )
   google_service_account = format(
     "%s-%s",
     var.gcp_project_id,
@@ -30,5 +35,6 @@ locals {
     , var.gcp_project_id
     , "cluster"
   )
-  optional_components = "Docker, Jupyter Notebook"
+  optional_component_1 = "DOCKER"
+  optional_component_2 = "JUPYTER"
 }
