@@ -31,3 +31,6 @@ variable "action_type" {
   description = "Action to carry out when resource reaches end of lifecycle"
 }
 
+variable "initialisation_script" {
+  description = "Script to run upon creation of Dataproc Cluster"
+}

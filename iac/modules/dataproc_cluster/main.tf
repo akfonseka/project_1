@@ -28,8 +28,11 @@ resource "google_dataproc_cluster" "spark_cluster" {
           var.optional_components
         ]
       }
-    }
 
+      initialization_action {
+        script = var.initialisation_script
+      }
+    }
 
   
 }

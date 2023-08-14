@@ -40,3 +40,6 @@ variable "optional_components" {
   
 }
 
+variable "initialisation_script" {
+    type = string  
+}

@@ -6,3 +6,4 @@ allow_data_deletion_on_tf_destroy = true
 uniform_bucket_access             = true
 lifecycle_age                     = 366
 action_type                       = "Delete"
+initialisation_script             = "gs://pipelineproject01-code-bucket/code/bigquery_connector.sh"

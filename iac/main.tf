@@ -54,7 +54,7 @@ module "cluster_temp_bucket" {
 
 
 module "code_bucket" {
-  source = "./modules/storage_bucket"
+  source                     = "./modules/storage_bucket"
   google_storage_bucket_name = local.code_bucket_name
   gcp_project_id             = var.gcp_project_id
   bucket_location            = var.gcp_region
@@ -88,5 +88,6 @@ module "dataproc_cluster" {
   worker_num             = 2
   preemptible_worker_num = 0
   optional_components    = local.optional_component_1
+  initialisation_script  = var.initialisation_script
 }
 
