@@ -3,11 +3,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql import functions as F 
 from pyspark.sql import types
 from pyspark.conf import SparkConf
-from pyspark.context import SparkContext
-import requests
-import pandas as pd
-from io import StringIO
-import argparse 
 
 # Configure variables as required
 from config_variables import var_credentials_location, var_gcs_connector, var_cluster_temp_bucket, var_bq_dataset, var_gcs_bronze_bucket
@@ -62,7 +57,7 @@ def gcs_to_bq(spark: SparkSession, gc_bucket: str, dataset: str, start_year: int
 
         for area in area_list:
             
-            file_name = f"{gc_bucket}/{year}/{area}/*"
+            file_name = f"{gc_bucket}/raw/{year}/{area}/*"
 
             df = spark.read \
                 .option("header", "true") \
@@ -133,6 +128,8 @@ def gcs_to_bq(spark: SparkSession, gc_bucket: str, dataset: str, start_year: int
         
         print(f"Loaded {year}-data into BQ")
         
+    spark.stop()
+    
     return None
 
 

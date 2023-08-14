@@ -1,9 +1,23 @@
-# Official PySpark container image
-FROM pyspark:3.4.1
+# Base Python image
+FROM python:3.10.1
 
+# Working directory 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
+# Install necessary dependencies 
+RUN apt-get update && apt-get install -y openjdk-8-jre-headless
 
+# Set environment variables
+ENV PYSPARK_PYTHON=python
+ENV SPARK_HOME=/app/opt/spark
+ENV PATH=$PATH:$SPARK_HOME/bin
+
+# Copying requirements and Spark application code into container
+COPY requirements.txt requirements.txt
+COPY spark_app.py spark_app.py
+
+# Installing Spark app reqs
 RUN pip install -r requirements.txt
 
+# Entry point command 
+ENTRYPOINT [ "spark-submit", "spark_app.py" ]
