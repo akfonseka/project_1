@@ -3,7 +3,9 @@ FROM apache/spark:3.4.1-python3
 
 WORKDIR /app
 
-COPY requirements.txt config_variables.py spark_app.py credentials.json gcs-connector-hadoop3-2.2.5.jar spark-bigquery-with-dependencies_2.12-0.23.2.jar ./
+COPY requirements.txt config_variables.py spark_app.py \
+    credentials.json gcs-connector-hadoop3-2.2.5.jar \
+    spark-bigquery-with-dependencies_2.12-0.23.2.jar ./
 
 USER root
 RUN pip install -r requirements.txt
