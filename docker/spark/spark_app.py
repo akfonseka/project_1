@@ -5,7 +5,9 @@ from pyspark.sql import types
 from pyspark.conf import SparkConf
 
 # Configure variables as required
-from config_variables import var_credentials_location, var_gcs_connector, var_cluster_temp_bucket, var_bq_dataset, var_gcs_bronze_bucket
+from config_variables import \
+    var_credentials_location, var_gcs_connector, var_cluster_temp_bucket \
+    ,var_bq_dataset, var_gcs_bronze_bucket, var_project_id, var_bq_connector
 
 # Default Area List
 area_list = ['Central', 'Inner', 'Outer']
@@ -13,7 +15,7 @@ area_list = ['Central', 'Inner', 'Outer']
 # Default Column List
 column_list = ["Date", "UUID", "Weather", "Time", "Day", "Area", "Count"]
 
-# Google Cloud Storage Bucket
+# Default Google Cloud Storage Bucket base url
 storage_bucket_url = "gs://pipelineproject01-data-bronze-bucket/raw"
 
 # Bike Data Schema
@@ -31,17 +33,20 @@ bike_schema = types.StructType([
     types.StructField('Count', types.IntegerType(), True)
 ])
 
-def create_spark_session(app_name: str , temp_bucket: str) -> SparkSession:
+def create_spark_session(app_name: str , credentials_path: str, gcs_connector:str, bq_connector: str, project_id: str) -> SparkSession:
     '''
     Function to create Spark session on a Dataproc cluster 
     '''
-    conf = SparkConf() \
-        .setAppName(app_name) \
-        .set("temporaryGcsBucket", temp_bucket) 
-
-    
     spark = SparkSession.builder \
-        .config(conf=conf) \
+        .appName(app_name) \
+        .config("spark.jars", ",".join([gcs_connector, bq_connector])) \
+        .config("spark.hadoop.google.cloud.auth.service.account.enable", "true") \
+        .config("spark.hadoop.google.cloud.auth.service.account.json.keyfile", credentials_path) \
+        .config("spark.hadoop.fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS") \
+        .config("spark.hadoop.fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem") \
+        .config("spark.hadoop.fs.gs.auth.service.account.json.keyfile", credentials_path) \
+        .config("spark.hadoop.fs.gs.auth.service.account.enable", "true") \
+        .config("spark.spark-bigquery.config.project", project_id) \
         .getOrCreate()
     
     return spark 
@@ -123,7 +128,11 @@ def gcs_to_bq(spark: SparkSession, gc_bucket: str, dataset: str, start_year: int
 
         unioned_df.write \
             .format("bigquery") \
+            .option("temporaryGcsBucket", var_cluster_temp_bucket) \
+            .option("parentProject", var_project_id) \
+            .option("dataset", var_bq_dataset) \
             .option("table", f"{dataset}.{year}-data") \
+            .mode("overwrite") \
             .save()
         
         print(f"Loaded {year}-data into BQ")
@@ -137,6 +146,12 @@ def gcs_to_bq(spark: SparkSession, gc_bucket: str, dataset: str, start_year: int
 if __name__ == "__main__":
     # When run as script - all data will be moved to BQ
 
-    spark = create_spark_session("Transfer to BQ", var_cluster_temp_bucket)
+    spark = create_spark_session( \
+        "Transfer to BQ", var_credentials_location, var_gcs_connector \
+        , var_bq_connector, var_project_id \
+    )
 
-    gcs_to_bq(spark, var_gcs_bronze_bucket, var_bq_dataset, 2015, 2022, area_list, column_list)
+    gcs_to_bq(
+        spark, var_gcs_bronze_bucket, var_bq_dataset \
+        , 2015, 2021, area_list, column_list
+    )
