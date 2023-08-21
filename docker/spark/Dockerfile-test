@@ -1,0 +1,19 @@
+FROM google/cloud-sdk:443.0.0
+
+# Working directory 
+WORKDIR /app
+
+# Authenticate gcloud SDK 
+COPY credentials.json credentials.json
+
+# Authenticate container with service account key 
+RUN gcloud auth activate-service-account --key-file=/app/credentials.json 
+
+# Set the active configuration to the desired project
+RUN gcloud config configurations create config1
+RUN gcloud config set project pipelineproject01 --configuration=config1
+RUN gcloud config configurations activate config1
+    
+# Switch to the new configuration as active
+ENTRYPOINT [ "gcloud", "config", "configurations", "list"]
+

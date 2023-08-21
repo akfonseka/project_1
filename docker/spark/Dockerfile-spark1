@@ -1,0 +1,48 @@
+FROM google/cloud-sdk:443.0.0
+
+# Working directory 
+WORKDIR /app
+
+# Authenticate gcloud SDK 
+COPY credentials.json credentials.json
+
+# Authenticate container with service account key 
+RUN gcloud auth activate-service-account --key-file=/app/credentials.json && \
+    gcloud config set project pipelineproject01
+
+# Set the active configuration to the desired project
+RUN gcloud config configurations create project-config && \
+    gcloud config set project pipelineproject01 --configuration=project-config 
+    
+# RUN gcloud config configurations activate project-config 
+
+# Install necessary dependencies for Spark
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jre-headless && \
+    apt-get install wget
+
+# Download and install Spark
+RUN wget https://dlcdn.apache.org/spark/spark-3.4.1/spark-3.4.1-bin-hadoop3.tgz && \
+    tar -xvzf spark-3.4.1-bin-hadoop3.tgz && \
+    mkdir -p /app/opt && \
+    mv spark-3.4.1-bin-hadoop3 /app/opt/spark && \
+    rm spark-3.4.1-bin-hadoop3.tgz
+
+# Set environment variables
+ENV PYSPARK_PYTHON=python
+ENV SPARK_HOME=/app/opt/spark
+ENV PATH=$PATH:$SPARK_HOME/bin
+# ENV GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
+
+# Copying requirements and Spark application code into container
+COPY requirements.txt spark_app.py ./
+
+# Installing Spark app reqs
+# RUN pip install -r requirements.txt
+
+# Switch to the new configuration as active
+ENTRYPOINT [ "gcloud", "config", "configurations", "activate", "project-config" ]
+
+# Verify config settings
+# CMD [ "gcloud", "config", "list"]
+
