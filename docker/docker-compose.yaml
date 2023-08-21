@@ -2,16 +2,16 @@
 
 version: '3'
 services:
-  data-ingester:
-    build:
-      context: ./data_ingester/
-      dockerfile: Dockerfile-ingester
-    volumes:
-      - "../data/raw/:/app/data/raw:rw"
-  # pyspark:
+  # data-ingester:
   #   build:
-  #     context: ./spark/
-  #     dockerfile: Dockerfile-spark
+  #     context: ./data_ingester/
+  #     dockerfile: Dockerfile-ingester
+  #   volumes:
+  #     - "../data/raw/:/app/data/raw:rw"
+  pyspark:
+    build:
+      context: ./spark/
+      dockerfile: Dockerfile-spark
 
 
   
