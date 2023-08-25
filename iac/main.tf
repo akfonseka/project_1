@@ -104,14 +104,14 @@ module "dbt_stage_dataset" {
 # }
 
 
-# module "cluster_temp_bucket" {
-#   source                     = "./modules/storage_bucket"
-#   google_storage_bucket_name = local.cluster_temp_bucket_name
-#   gcp_project_id             = var.gcp_project_id
-#   bucket_location            = var.gcp_region
-#   storage_class              = var.storage_class
-#   force_destroy              = var.allow_data_deletion_on_tf_destroy
-#   uniform_bucket_access      = var.uniform_bucket_access
-#   lifecycle_age              = var.lifecycle_age
-#   action_type                = var.action_type
-# }
+module "spark_temp_bucket" {
+  source                     = "./modules/storage_bucket"
+  google_storage_bucket_name = local.spark_temp_bucket_name
+  gcp_project_id             = var.gcp_project_id
+  bucket_location            = var.gcp_region
+  storage_class              = var.storage_class
+  force_destroy              = var.allow_data_deletion_on_tf_destroy
+  uniform_bucket_access      = var.uniform_bucket_access
+  lifecycle_age              = var.lifecycle_age
+  action_type                = var.action_type
+}

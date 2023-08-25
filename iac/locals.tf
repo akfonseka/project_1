@@ -23,6 +23,11 @@ locals {
     , var.gcp_project_id
     , "code-bucket"
   )
+  spark_temp_bucket_name = format(
+    "%s-%s"
+    ,var.gcp_project_id
+    ,"temp-bucket"
+  )
   google_service_account = format(
     "%s-%s",
     var.gcp_project_id,
@@ -50,14 +55,14 @@ locals {
   prod_dataset_id = format(
     "%s_%s"
     ,var.gcp_project_id
-    ,"production"    
+    ,"models_prod"    
   )
   prod_friendly_name = "Production Dataset"
   prod_dataset_desc = "Dataset for dbt production"
   stg_dataset_id = format(
     "%s_%s"
     ,var.gcp_project_id
-    ,"staging"
+    ,"models_stg"
   )
   stg_friendly_name = "Staging Dataset"
   stg_dataset_desc = "Dataset for dbt staging"
